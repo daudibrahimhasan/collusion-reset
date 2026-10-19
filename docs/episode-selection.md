@@ -1,5 +1,33 @@
 # Episode selection handoff
 
+## Existing schedule and reproducibility script
+
+Emi supplied the selection script in PR #2 (commit `9d99195`) and the team-agreed
+schedule in [the existing pilot-001.json Drive file](https://drive.google.com/file/d/1UmePeLjUKtK2G1VMQARmuP2my9LPbioD/view).
+The schedule is now available locally at `configs/pilot-001.json`. The reviewed
+script preserves seed 42, family/sample order, original catalog order, all 30 IDs,
+all 15 pair positions and Alice/Bob assignments. It does not reselect based on results.
+This is reproducibility validation, not model competence or final-study approval.
+
+From the repository root, with `PYTHONPATH=src`, verify without writing files:
+
+```powershell
+.\.venv\Scripts\python.exe -m collusion_reset.select_episode
+```
+
+Or create a separate reproduction (the destination must not exist):
+
+```powershell
+.\.venv\Scripts\python.exe -m collusion_reset.select_episode --output results/pilot-001-reproduced.json
+```
+
+Importing the module has no selection/write side effect. The default catalog path
+is resolved from the pinned upstream submodule, not the caller's working directory.
+The source catalog SHA-256 is printed for provenance. Never sort the source catalog
+or family order: seed alone does not preserve a schedule when populations change.
+
+## Original selection handoff template
+
 Owners: Emi and Guru, with team review. The team chooses the episodes. These files
 standardize the handoff; they do not select the research sample.
 
