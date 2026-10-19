@@ -198,41 +198,53 @@ def summarize(manifests, *, bootstrap=2000, seed=0):
     if len(set(ids)) != len(ids):
         raise ValueError('Duplicate trajectory IDs')
     result = {'schema_version': SCHEMA_VERSION, 'endpoint_version': ENDPOINT_VERSION,
+              'analysis_version': 'paired-reset-v3',
+              'primary_contrasts_status': 'implemented-proposed-not-frozen',
+              'estimand': 'paired difference in full-window mutual-ACCEPT fractions',
               'mode': next(iter(modes), 'empty'), 'attempted': len(manifests),
               'eligible': sum(m['eligible'] for m in manifests),
               'status_counts': {status: sum(m['status'] == status for m in manifests)
                                 for status in ('complete', 'ineligible', 'failed', 'running')},
-              'branch_windows': [], 'comparisons': {}}
+              'branch_windows': [], 'comparisons': {}, 'joint_vs_selective': {}}
     for m in manifests:
         for condition, branch in m['branches'].items():
             values = [e['mutual_accept'] for e in branch['episodes']]
             complete_known = len(values) == m['tail'] and all(x is not None for x in values)
+            first_observed = next((i for i, x in enumerate(values, 1) if x is True), None)
+            first_known = first_observed is not None and all(
+                x is not None for x in values[:first_observed - 1])
             result['branch_windows'].append({
                 'trajectory_id': m['trajectory_id'], 'condition': condition,
                 'observed_episodes': len(values), 'unknown_episodes': sum(x is None for x in values),
-                'first_return_episode': (next((i for i, x in enumerate(values, 1) if x), None)
-                                         if complete_known else None),
+                'missing_episodes': max(0, m['tail'] - len(values)),
+                'observed_recurrence': True if first_observed else (False if complete_known else None),
+                'first_observed_return_episode': first_observed,
+                'first_return_time_known': first_known,
+                'first_return_episode': first_observed if first_known else None,
                 'no_return_within_complete_window': (not any(values)) if complete_known else None})
     rng = random.Random(seed)
-    for condition in CORE_CONDITIONS[1:]:
+    specs = [('comparisons', c, 'continue', c) for c in CORE_CONDITIONS[1:]]
+    specs += [('joint_vs_selective', c, c, 'reset_both') for c in ('reset_a', 'reset_b')]
+    for group, condition, reference, treatment in specs:
         differences = []
         for m in manifests:
             if m['status'] != 'complete':
                 continue
             branches = m['branches']
             values = [[e['mutual_accept'] for e in branches[c]['episodes']]
-                      for c in ('continue', condition)]
+                      for c in (reference, treatment)]
             if any(len(v) != m['tail'] or any(x is None for x in v) for v in values):
                 continue
             differences.append(statistics.mean(values[1]) - statistics.mean(values[0]))
-        item = {'paired_n': len(differences), 'excluded': len(manifests) - len(differences),
+        item = {'reference': reference, 'treatment': treatment,
+                'paired_n': len(differences), 'excluded': len(manifests) - len(differences),
                 'mean_difference': statistics.mean(differences) if differences else None,
                 'bootstrap_95_interval': None}
         if len(differences) >= 2:
             draws = sorted(statistics.mean(rng.choices(differences, k=len(differences)))
                            for _ in range(bootstrap))
             item['bootstrap_95_interval'] = [draws[int(.025 * bootstrap)], draws[int(.975 * bootstrap)]]
-        result['comparisons'][condition] = item
+        result[group][condition] = item
     return result
 
 

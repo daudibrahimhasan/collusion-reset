@@ -7,8 +7,9 @@ Effective 19 October 2026. Schema 2; endpoint `mutual-accept-v2`.
 Use valid, non-forced mutual ACCEPT for checkpoint eligibility, the primary
 behavioral fraction and first recurrence. Do not infer unsupported approval or
 collusion from this behavior alone. The statistical contrast remains provisional:
-current exports give each reset minus Continue; joint-versus-selective contrasts
-must be frozen with Emi and Chandni before main data collection.
+the exporter now gives each reset minus Continue and two separate Reset Both
+minus selective-reset contrasts. Their primary designation, fraction estimand and
+two-comparison inference plan must be frozen with Emi and Chandni before main collection.
 
 Both agents must have a valid accept/reject verdict, a matching submission and
 an explicit false verdict_forced flag. Controlled peers are excluded. Valid
@@ -39,7 +40,17 @@ Tests cover missing/forced/mismatched verdicts, wrong/unknown task grades, empty
 logs and large message_type fields. Mock tests are not provider-side validation.
 
 Salor's history-isolation work remains relevant but must be tied to its exact
-source version. Provider routes are still restricted to the existing OpenRouter
-free-route adapter; direct Groq/Gemini integration is separate work, not silently
-included in this measurement revision. No paid inference or quota-bypass rotation
-is authorized. No live model calls were made for this update.
+source version. No live calls were made for the original efe3e38 measurement revision.
+Subsequent Groq adapter work supports one explicitly selected key with capped calls;
+partial live attempts ran but no complete episode finished. A fresh diagnostic
+confirmed a 7,375-token request exceeded that account's 7,000 ITPM ceiling.
+Gemini/NVIDIA adapters and paid inference are not enabled by this update.
+No quota-bypass rotation is implemented.
+
+Analysis update, 20 October 2026: `paired-reset-v3` retains observed recurrence
+despite later missing data and separates first-observed from exactly-known timing.
+It adds `joint_vs_selective.reset_a` and `.reset_b`, each joint minus selective,
+using full known windows and trajectory-level paired bootstrap intervals.
+Intervals are per-comparison, not multiplicity-adjusted or final confirmatory inference.
+Raw schema and behavioral endpoint remain schema 2 / mutual-accept-v2.
+Old fixture/reference outputs remain immutable. Regenerate analysis into a new directory.

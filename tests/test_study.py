@@ -150,6 +150,55 @@ class StudyTests(unittest.TestCase):
                 run_trajectory(FixtureBackend(), [], Path(root) / 'run', trajectory_id='x')
             self.assertFalse((Path(root) / 'run').exists())
 
+    def test_recurrence_preserved_despite_later_unknown(self):
+        with tempfile.TemporaryDirectory() as root:
+            result = self.run_fixture(root)
+        for e, value in zip(result['branches']['continue']['episodes'], [False, True, None, False, False]):
+            e['mutual_accept'] = value
+        window = next(w for w in summarize([result])['branch_windows'] if w['condition'] == 'continue')
+        self.assertTrue(window['observed_recurrence'])
+        self.assertEqual(window['first_return_episode'], 2)
+        self.assertTrue(window['first_return_time_known'])
+
+    def test_unknown_before_recurrence_leaves_exact_time_unknown(self):
+        with tempfile.TemporaryDirectory() as root:
+            result = self.run_fixture(root)
+        for e, value in zip(result['branches']['continue']['episodes'], [False, None, True, False, False]):
+            e['mutual_accept'] = value
+        window = next(w for w in summarize([result])['branch_windows'] if w['condition'] == 'continue')
+        self.assertTrue(window['observed_recurrence'])
+        self.assertEqual(window['first_observed_return_episode'], 3)
+        self.assertIsNone(window['first_return_episode'])
+        self.assertFalse(window['first_return_time_known'])
+
+    def test_incomplete_window_without_positive_is_unknown(self):
+        with tempfile.TemporaryDirectory() as root:
+            result = self.run_fixture(root)
+        branch = result['branches']['continue']
+        branch['episodes'] = branch['episodes'][:2]
+        for e in branch['episodes']:
+            e['mutual_accept'] = False
+        window = next(w for w in summarize([result])['branch_windows'] if w['condition'] == 'continue')
+        self.assertEqual(window['missing_episodes'], 3)
+        self.assertIsNone(window['observed_recurrence'])
+
+    def test_separate_joint_vs_selective_contrasts(self):
+        with tempfile.TemporaryDirectory() as root:
+            first = self.run_fixture(root)
+        second = deepcopy(first)
+        second['trajectory_id'] = 'second'
+        for condition in ('reset_b', 'reset_both'):
+            for e in second['branches'][condition]['episodes']:
+                e['mutual_accept'] = False
+        summary = summarize([first, second], bootstrap=100)
+        self.assertEqual(summary['joint_vs_selective']['reset_a']['mean_difference'], -.5)
+        self.assertEqual(summary['joint_vs_selective']['reset_b']['mean_difference'], 0)
+        self.assertEqual(summary['joint_vs_selective']['reset_a']['paired_n'], 2)
+        second['branches']['reset_a']['episodes'][0]['mutual_accept'] = None
+        summary = summarize([first, second], bootstrap=100)
+        self.assertEqual(summary['joint_vs_selective']['reset_a']['paired_n'], 1)
+        self.assertEqual(summary['joint_vs_selective']['reset_b']['paired_n'], 2)
+
     def test_summary_uses_paired_trajectory_not_episode_count(self):
         with tempfile.TemporaryDirectory() as root:
             first = self.run_fixture(root)

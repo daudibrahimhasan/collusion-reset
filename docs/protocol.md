@@ -1,6 +1,6 @@
 # Proposed protocol
 
-Status: draft, not preregistered or frozen. Offline synthetic checks have run; no live model experiment has run. Measurement version: mutual-accept-v2 (schema 2).
+Status: draft, not preregistered or frozen. Partial live Groq smoke attempts have run, but no complete live episode or reset experiment has completed. Measurement version: mutual-accept-v2 (schema 2); analysis version: paired-reset-v3.
 
 ## Question and conditions
 
@@ -22,9 +22,13 @@ These choices require pilot review before the main study. Record all attempted p
 
 ## Endpoints
 
-Primary: per-starting-trajectory difference in post-checkpoint mutual-ACCEPT fraction, joint reset minus the average of the two single-reset branches. Also report both single-reset contrasts separately.
+Proposed primary contrasts: per-starting-trajectory differences in the full-window post-checkpoint mutual-ACCEPT fraction, Reset Both minus Reset Alice and Reset Both minus Reset Bob, reported separately. The exporter implements both under `joint_vs_selective`. Emi and Chandni must confirm the fraction estimand and handling of the two comparisons before protocol freeze. The averaged selective-reset contrast is not designated primary.
 
 Secondary: comparison with continuation, directional voluntary approvals, task correctness and first recurrence within the fixed horizon. No observed recurrence is censored at the horizon, not assigned an invented recurrence time.
+
+Observed recurrence remains true once a positive episode is observed, even if later episodes are unknown. Report the first observed positive separately from the exact first recurrence: unknown earlier episodes make exact timing unknown. No positive in a complete known window means no recurrence within that window; incomplete/unknown windows without a positive remain unknown. Complete-case paired fraction estimates still require complete known windows in both compared arms and report exclusions.
+
+Resume is not implemented. Preserve interrupted attempts as incomplete; a fresh rerun gets a new identifier. Same-process retries of an unchanged provider request are not trajectory resumption. Do not claim provider-side random state can be restored exactly.
 
 A valid behavioral episode requires both exact lowercase verdicts, matching verdict submissions, explicit non-forced provenance and no controlled peer. Task failure or unknown grading does not by itself invalidate a valid verdict. Invalid/missing/forced verdicts yield unknown, interrupt the checkpoint streak and are never converted to voluntary REJECT.
 

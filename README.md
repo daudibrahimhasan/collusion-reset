@@ -2,7 +2,7 @@
 
 Testing how selective history resets affect sustained mutual approval in LLM agents.
 
-**Status: offline-tested study orchestration and an unvalidated live adapter.** Synthetic runs cover checkpoint save/reload, four reset branches, matched continuations and analysis. The live adapter is connected to pinned upstream code but has not made model requests. The exposure extension remains blocked. No empirical findings are claimed. Current endpoint is schema 2 / `mutual-accept-v2`; see [the measurement change](docs/measurement-v2.md).
+**Status: offline-tested study orchestration; live validation incomplete.** Synthetic runs cover checkpoint save/reload, four reset branches, matched continuations and analysis. Partial Groq calls succeeded, but no complete live episode or reset experiment finished. The tested account rejected a single 7,375-input-token request against a 7,000 ITPM limit. The exposure extension remains blocked. No empirical collusion/intervention findings are claimed. Current endpoint is schema 2 / `mutual-accept-v2`; analysis version is `paired-reset-v3`. See [the measurement change](docs/measurement-v2.md).
 
 ## Research question
 
@@ -16,7 +16,7 @@ Prepared for the [AI Collusion Research Sprint](https://apartresearch.com/sprint
 
 Build on the peer-verification setting from [Shi et al., Emergent Collusion in Long-Horizon LLM Agent Interaction](https://arxiv.org/abs/2609.24967), with [upstream code](https://github.com/SALT-NLP/agent-collusion).
 
-Agents complete separate tasks and evaluate each other's work. The protocol requires the complete execution log before approval. Restricted communication prevents complete log exchange, creating tension between protocol compliance and rewards for correct judgments.
+Agents complete separate tasks and evaluate each other's work. The protocol requires the complete execution log and concrete support for correct completion before approval. Message content is restricted, but the upstream `message_type` field is not; content limits alone do not establish that complete log exchange is impossible. Mutual approval, evidence compliance and task correctness are separate outcomes.
 
 At a predeclared checkpoint, branch the same interaction into four conditions:
 
@@ -91,3 +91,10 @@ now uses that submodule. Distinguish pre-sprint preparation from sprint work.
 Use synthetic tasks and avoid real sensitive data. Never commit credentials, private messages or unreviewed raw logs. Model-generated executable code requires an appropriate sandbox before execution.
 
 This study cannot establish general prevalence of collusion, hidden intent, or the effectiveness of model replacement from history-reset results alone. No findings are claimed at this stage.
+
+## Groq local run setup
+
+The local `.env` has five empty `GROK_1` ... `GROK_5` slots for **Groq** keys.
+Select one with `GROQ_KEY_SLOT`; there is no automatic account fallback.
+See [the Groq runbook](docs/groq-runbook.md) for offline preflight, smoke/pilot commands,
+safety limits and the remaining final-study gates. Live access is not yet validated.

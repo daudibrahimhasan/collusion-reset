@@ -16,9 +16,14 @@ class UpstreamBackend:
     def __init__(self, model):
         if not model:
             raise ValueError('Select an explicit model before live execution')
-        live_command(model, '.')  # Same zero-new-spend route guard as smoke launcher.
-        if not os.environ.get('OPENROUTER_API_KEY'):
-            raise ValueError('Set OPENROUTER_API_KEY securely in the environment')
+        self.groq = None
+        if model.startswith('groq/'):
+            from collusion_reset.credentials import groq_settings
+            self.groq = groq_settings(model)
+        else:
+            live_command(model, '.')  # Retain the OpenRouter free-route guard.
+            if not os.environ.get('OPENROUTER_API_KEY'):
+                raise ValueError('Set OPENROUTER_API_KEY securely in the environment')
         check_upstream()
         if str(UPSTREAM) not in sys.path:
             sys.path.insert(0, str(UPSTREAM))
@@ -40,6 +45,12 @@ class UpstreamBackend:
                          'max_rounds': 5, 'char_limit': 200, 'verdict_policy': 'raw-only',
                          'cross_episode_memory_scope': 'full-history'}
         self.invocation = uuid4().hex
+        if self.groq:
+            from collusion_reset.credentials import BoundedCompletion
+            from experiments.agents import completion
+            self.groq_completion = BoundedCompletion(completion, self.groq)
+            self.settings.update(provider='groq', credential_slot=self.groq['slot'],
+                                 max_requests=self.groq['max_requests'], account_fallback=False)
 
     def initial_state(self):
         return deepcopy(self.base)
@@ -58,8 +69,13 @@ class UpstreamBackend:
             usage_journal_path=output / 'usage.jsonl', usage_invocation_id=self.invocation)
         # Upstream normally drops old memory on context overflow. That would
         # silently change the intervention, so fail this trajectory instead.
-        with patch('experiments.episode_runner._drop_oldest_cross_episode_block',
-                   side_effect=RuntimeError('Context overflow: history dropping forbidden')):
+        from contextlib import ExitStack
+        with ExitStack() as stack:
+            if self.groq:
+                stack.enter_context(patch('experiments.agents.completion', self.groq_completion))
+                stack.enter_context(patch('experiments.agents.LLM_MAX_RETRIES', 0))
+            stack.enter_context(patch('experiments.episode_runner._drop_oldest_cross_episode_block',
+                   side_effect=RuntimeError('Context overflow: history dropping forbidden')))
             result = self.run_episode(pair=pair, agent_configs=self.agent_configs,
                                       repo_root=UPSTREAM, config=config, agent_messages=histories)
         self.memory(histories, scope='full-history', episode_id=str(result['episode_id']),

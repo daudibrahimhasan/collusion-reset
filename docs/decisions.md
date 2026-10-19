@@ -35,3 +35,15 @@ rejects legacy schema-1 inputs rather than silently reinterpreting them.
 Retain fixture-002 and Chandni's PR #1 as legacy audit evidence, not v2 approval.
 Recheck independent metrics after this change; do not rerun old data under a
 new label without a separately documented reanalysis.
+
+## 20 October 2026: implementation alignment, not protocol freeze
+
+- Preserve Emi's agreed 15-pair schedule; PR #2 fixes only paths, import safety,
+  overwrite protection and source validation. Seed, IDs, order and role assignments are unchanged.
+- Export separate Reset Both minus Reset Alice/Bob fraction contrasts as proposed;
+  Emi/Chandni still approve the estimand, sample scope and two-comparison inference plan.
+- Preserve observed recurrence after later missingness; unknown earlier episodes make
+  exact recurrence time unknown. Incomplete windows do not become negative observations.
+- Resume remains unsupported. Partial live attempts remain incomplete and retained.
+- Partial Groq tests did not complete an episode. No model competence, intervention
+  effect, transmission or full-run token budget is established by those attempts.
