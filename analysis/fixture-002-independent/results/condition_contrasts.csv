@@ -1,0 +1,7 @@
+contrast,condition,reference_condition,trajectory_n,independent_trajectory_level_difference,uncertainty_interval,status
+reset_a_minus_continue,reset_a,continue,1,0.0,not estimable from n=1,DESCRIPTIVE_SYNTHETIC_ONLY
+reset_b_minus_continue,reset_b,continue,1,0.0,not estimable from n=1,DESCRIPTIVE_SYNTHETIC_ONLY
+reset_both_minus_continue,reset_both,continue,1,0.0,not estimable from n=1,DESCRIPTIVE_SYNTHETIC_ONLY
+reset_both_minus_mean_of_reset_a_and_reset_b,reset_both,"mean(reset_a,reset_b)",1,0.0,not estimable from n=1,PROPOSED_CONTRAST_NOT_FROZEN
+reset_both_minus_reset_a,reset_both,reset_a,1,0.0,not estimable from n=1,PROPOSED_CONTRAST_NOT_FROZEN
+reset_both_minus_reset_b,reset_both,reset_b,1,0.0,not estimable from n=1,PROPOSED_CONTRAST_NOT_FROZEN

@@ -1,0 +1,43 @@
+area,key,reference_value,independent_value,status,note
+study.json,raw episode metrics vs stored study metrics,all 23 raw records match,23/23 match,PASS,
+study.json,mode,synthetic-fixture-NOT-EMPIRICAL,synthetic-fixture-NOT-EMPIRICAL,PASS,
+study.json,status,complete,complete,PASS,
+study.json,eligible,true,true,PASS,
+summary.json,status_counts.complete,1,1,PASS,
+summary.json,status_counts.ineligible,0,0,PASS,
+summary.json,status_counts.failed,0,0,PASS,
+summary.json,status_counts.running,0,0,PASS,
+summary.json,attempted,1,1,PASS,
+summary.json,eligible,1,1,PASS,
+summary.json,mode,synthetic-fixture-NOT-EMPIRICAL,synthetic-fixture-NOT-EMPIRICAL,PASS,
+summary.json,"branch_window.('fixture-002', 'continue').observed_episodes",5,5,PASS,
+summary.json,"branch_window.('fixture-002', 'continue').unknown_episodes",0,0,PASS,
+summary.json,"branch_window.('fixture-002', 'continue').first_return_episode",1,1,PASS,
+summary.json,"branch_window.('fixture-002', 'continue').no_return_within_complete_window",false,false,PASS,
+summary.json,"branch_window.('fixture-002', 'reset_a').observed_episodes",5,5,PASS,
+summary.json,"branch_window.('fixture-002', 'reset_a').unknown_episodes",0,0,PASS,
+summary.json,"branch_window.('fixture-002', 'reset_a').first_return_episode",1,1,PASS,
+summary.json,"branch_window.('fixture-002', 'reset_a').no_return_within_complete_window",false,false,PASS,
+summary.json,"branch_window.('fixture-002', 'reset_b').observed_episodes",5,5,PASS,
+summary.json,"branch_window.('fixture-002', 'reset_b').unknown_episodes",0,0,PASS,
+summary.json,"branch_window.('fixture-002', 'reset_b').first_return_episode",1,1,PASS,
+summary.json,"branch_window.('fixture-002', 'reset_b').no_return_within_complete_window",false,false,PASS,
+summary.json,"branch_window.('fixture-002', 'reset_both').observed_episodes",5,5,PASS,
+summary.json,"branch_window.('fixture-002', 'reset_both').unknown_episodes",0,0,PASS,
+summary.json,"branch_window.('fixture-002', 'reset_both').first_return_episode",1,1,PASS,
+summary.json,"branch_window.('fixture-002', 'reset_both').no_return_within_complete_window",false,false,PASS,
+summary.json,comparisons.reset_a.mean_difference,0,0.0,PASS,
+summary.json,comparisons.reset_a.paired_n,1,1,PASS,
+summary.json,comparisons.reset_a.excluded,0,0,PASS,
+summary.json,comparisons.reset_a.bootstrap_95_interval,unknown,unknown,PASS,One trajectory cannot support trajectory-level bootstrap uncertainty.
+summary.json,comparisons.reset_b.mean_difference,0,0.0,PASS,
+summary.json,comparisons.reset_b.paired_n,1,1,PASS,
+summary.json,comparisons.reset_b.excluded,0,0,PASS,
+summary.json,comparisons.reset_b.bootstrap_95_interval,unknown,unknown,PASS,One trajectory cannot support trajectory-level bootstrap uncertainty.
+summary.json,comparisons.reset_both.mean_difference,0,0.0,PASS,
+summary.json,comparisons.reset_both.paired_n,1,1,PASS,
+summary.json,comparisons.reset_both.excluded,0,0,PASS,
+summary.json,comparisons.reset_both.bootstrap_95_interval,unknown,unknown,PASS,One trajectory cannot support trajectory-level bootstrap uncertainty.
+summary.json,primary_contrast.reset_both_minus_mean_selective,not exported,0.0,NOT_IN_REFERENCE,Proposed primary contrast remains a protocol decision; keep this as an explicitly proposed descriptive check.
+summary.json,proposed_contrast.reset_both_minus_reset_a,not exported,0.0,NOT_IN_REFERENCE,Separate joint-versus-single-reset contrast requested by analysis plan.
+summary.json,proposed_contrast.reset_both_minus_reset_b,not exported,0.0,NOT_IN_REFERENCE,Separate joint-versus-single-reset contrast requested by analysis plan.
