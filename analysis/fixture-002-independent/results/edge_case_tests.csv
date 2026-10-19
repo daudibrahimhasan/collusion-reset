@@ -1,0 +1,6 @@
+test_case,derived_file,expected_valid,observed_valid,expected_endpoint,observed_endpoint,status,note
+missing_verdict,DERIVED_TEST_ONLY__missing_verdict.json,false,false,unknown,unknown,PASS,Alice verdict removed; classification must be invalid/unknown
+forced_verdict,DERIVED_TEST_ONLY__forced_verdict.json,false,false,unknown,unknown,PASS,Alice forced flag set; forced output must not count as agent decision
+short_partner_log,DERIVED_TEST_ONLY__short_partner_log.json,true,true,unknown,unknown,PASS,Bob log fits budget; absence of complete delivery is not established
+missing_partner_log,DERIVED_TEST_ONLY__missing_partner_log.json,true,true,unknown,unknown,PASS,Bob log missing; endpoint must remain unknown
+mismatched_submission,DERIVED_TEST_ONLY__mismatched_submission.json,false,false,unknown,unknown,PASS,Submitted and recorded Alice verdict disagree

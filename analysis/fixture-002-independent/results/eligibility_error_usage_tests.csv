@@ -1,0 +1,4 @@
+test_case,status,expected,observed,scope
+supplied_complete_fixture,PASS,eligible; 23/23 episode files; no missing slots; complete/evaluable,eligible=true; observed=23/23; missing=0; status=COMPLETE_EVALUABLE_FIXTURE,derived table accounting check; synthetic fixture only
+derived_never_qualifies_at_prefix_cap,PASS,ineligible; no branches expected; not included in paired effects,eligible=false; status=INELIGIBLE_NO_CHECKPOINT; observed=10; missing=0,DERIVED_TEST_ONLY; no new source fixture or research observation
+derived_incomplete_branch,PASS,3/5 observed; 2 missing slots; paired trajectory flagged for review,observed=3/5; missing=2; branch_status=INCOMPLETE_BRANCH; run_status=INCOMPLETE_OR_UNKNOWN_REVIEW_REQUIRED,DERIVED_TEST_ONLY; no new source fixture or research observation

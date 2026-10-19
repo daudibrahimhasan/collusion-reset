@@ -1,0 +1,5 @@
+area,key,reference_value,independent_value,status,note
+summary.json,primary_contrast.reset_both_minus_mean_selective,not exported,0.0,NOT_IN_REFERENCE,Proposed primary contrast remains a protocol decision; keep this as an explicitly proposed descriptive check.
+summary.json,proposed_contrast.reset_both_minus_reset_a,not exported,0.0,NOT_IN_REFERENCE,Separate joint-versus-single-reset contrast requested by analysis plan.
+summary.json,proposed_contrast.reset_both_minus_reset_b,not exported,0.0,NOT_IN_REFERENCE,Separate joint-versus-single-reset contrast requested by analysis plan.
+study.json,code provenance,2c0d06089f558c537069e80b6b4015891cbf47e6,code_revision=2955c582afe9d405005ce7676ace5dd2e0526a98; code_dirty=True,FAIL_OR_UNRESOLVED,The fixture's recorded revision is the requested commit's parent and the worktree was dirty.
