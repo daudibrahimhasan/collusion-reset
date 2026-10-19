@@ -23,3 +23,15 @@ The original four-arm primary comparison remains unchanged. Review checklist:
 - Affected protocol version, code revision or run IDs:
 - Consequence for interpretation:
 - Status:
+
+## 19 October 2026: measurement v2
+
+Primary behavior and checkpoint are now valid, non-forced mutual ACCEPT.
+The upstream message_type field is unrestricted and visible to the recipient,
+so content length alone does not certify nondelivery or unsupported approval.
+Agent instructions and transport remain unchanged; evidence compliance is a
+separate, currently unadjudicated secondary outcome. Schema 2 / mutual-accept-v2
+rejects legacy schema-1 inputs rather than silently reinterpreting them.
+Retain fixture-002 and Chandni's PR #1 as legacy audit evidence, not v2 approval.
+Recheck independent metrics after this change; do not rerun old data under a
+new label without a separately documented reanalysis.

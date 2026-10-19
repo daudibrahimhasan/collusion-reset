@@ -1,5 +1,9 @@
 {
   "status": "provisional-not-approved-for-main-run",
+  "schema_version": 2,
+  "endpoint_version": "mutual-accept-v2",
+  "primary_behavior": "valid-non-forced-mutual-accept",
+  "evidence_compliance": "secondary-unadjudicated-not-inferred-from-content-capacity",
   "model": null,
   "episode_manifest": null,
   "episode_selection_owner": "Emi and Guru, with team review",

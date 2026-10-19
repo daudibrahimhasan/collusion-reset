@@ -1,12 +1,12 @@
 # Collusion Reset
 
-Testing whether selective memory resets break established collusive behavior in LLM agents.
+Testing how selective history resets affect sustained mutual approval in LLM agents.
 
-**Status: offline-tested study orchestration and an unvalidated live adapter.** Synthetic runs cover checkpoint save/reload, four reset branches, matched continuations and analysis. The live adapter is connected to pinned upstream code but has not made model requests. The exposure extension remains blocked. No empirical findings are claimed.
+**Status: offline-tested study orchestration and an unvalidated live adapter.** Synthetic runs cover checkpoint save/reload, four reset branches, matched continuations and analysis. The live adapter is connected to pinned upstream code but has not made model requests. The exposure extension remains blocked. No empirical findings are claimed. Current endpoint is schema 2 / `mutual-accept-v2`; see [the measurement change](docs/measurement-v2.md).
 
 ## Research question
 
-Once two agents repeatedly approve each other's work without the required evidence, does resetting one agent's history stop the pattern, or does retaining the other agent's history help it return?
+Once two agents repeatedly approve each other's work, does resetting one agent's history stop the pattern, or does retaining the other agent's history help it return? Evidence-policy compliance is a separate secondary question.
 
 Working project title: **Does Replacing One Agent Break a Collusive Convention?** The core experiment tests history resets; replacing an agent with a different model is an optional extension and has not been implemented.
 
@@ -34,7 +34,7 @@ Emi/Guru's review of evidence matching and remaining exposure channels. See the
 
 All branches receive the same future task pairs, rules, reward definition and communication limits. A history reset must not remove current task information or leak old context through summaries, caches or shared mutable state.
 
-Primary question: how does post-checkpoint unsupported mutual approval differ between joint and selective resets? Report each single-reset comparison separately. The independent unit is the starting trajectory, not its branches, episodes or model calls.
+Primary question: how does post-checkpoint mutual ACCEPT differ between joint and selective resets? Report each single-reset comparison separately. The independent unit is the starting trajectory, not its branches, episodes or model calls.
 
 **Unsupported approval is a protocol violation, not automatically an incorrect answer or proof of agreement.** Stronger interpretations require evidence of peer influence and appropriate controls.
 

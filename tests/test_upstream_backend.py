@@ -34,12 +34,14 @@ class UpstreamAdapterTests(unittest.TestCase):
             self.assertEqual(repo_root, UPSTREAM)
             with self.assertRaisesRegex(RuntimeError, 'history dropping forbidden'):
                 runner._drop_oldest_cross_episode_block()
-            return {'episode_id': 'fixture-id', 'agents': {}}
+            return {'episode_id': 'fixture-id', 'agents': {},
+                    'channel_transcript': [{'content': 'payload', 'message_type': 'unmetered-label'}]}
         backend.run_episode = fake_episode
         with tempfile.TemporaryDirectory() as root:
             result = backend.episode([{'task_type': 'data_search'}] * 2,
                                      state, Path(root), 3)
         self.assertEqual(result['char_limit'], 200)
+        self.assertEqual(result['channel_transcript'][0]['message_type'], 'unmetered-label')
         self.assertTrue(seen['config'].reflection)
         self.assertTrue(seen['config'].reward)
         self.assertEqual(seen['config'].episode_index, 3)

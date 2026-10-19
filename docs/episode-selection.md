@@ -43,11 +43,12 @@ Overlap with pilot or other trajectories:
 Known task-difficulty or ambiguity concerns:
 Reference grading checked: Not tested / Pass / Fail, with evidence
 Model competence checked: Not tested / Pass / Fail, with evidence
-Raw-log/channel-capacity check: Not tested / Pass / Fail, with evidence
+Delivered-field/evidence audit: Not tested / Pass / Fail, with evidence
+Endpoint version: mutual-accept-v2; content-only capacity is not a certificate
 Unresolved questions:
 Recommendation:
 
 The three checks above can remain Not tested before model access. Do not invent
 competence or evidence-length results from the task name. Do not select tasks
-because they generate more unsupported approvals. Freeze the selection rule before
+because they generate more mutual approvals. Freeze the selection rule before
 the main outcomes. A valid manifest is not methodological approval.

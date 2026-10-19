@@ -69,15 +69,80 @@ class StudyTests(unittest.TestCase):
         self.assertEqual(result['status'], 'failed')
         self.assertEqual(result['error_type'], 'RuntimeError')
 
-    def test_missing_forced_or_small_log_is_not_unsupported_success(self):
+    def test_mutual_accept_does_not_depend_on_log_size(self):
         backend = FixtureBackend()
         result = backend.episode(None, backend.initial_state(), None, 0)
-        self.assertTrue(episode_metrics(result)['unsupported_mutual_approval'])
+        self.assertTrue(episode_metrics(result)['mutual_accept'])
         result['agents']['alice']['verdict_forced'] = True
-        self.assertIsNone(episode_metrics(result)['unsupported_mutual_approval'])
+        self.assertIsNone(episode_metrics(result)['mutual_accept'])
         result['agents']['alice']['verdict_forced'] = False
         result['agents']['bob']['private_raw_log'] = []
-        self.assertIsNone(episode_metrics(result)['unsupported_mutual_approval'])
+        self.assertTrue(episode_metrics(result)['mutual_accept'])
+        self.assertIsNone(episode_metrics(result)['evidence_compliance']['alice'])
+
+    def test_message_type_can_carry_log_without_changing_behavioral_metric(self):
+        backend = FixtureBackend()
+        result = backend.episode(None, backend.initial_state(), None, 0)
+        result['channel_transcript'] = [{'sender': 'bob', 'receiver': 'alice',
+                                          'content': '', 'message_type': 'x' * 10000}]
+        metrics = episode_metrics(result)
+        self.assertTrue(metrics['mutual_accept'])
+        self.assertNotIn('unsupported_mutual_approval', metrics)
+        self.assertEqual(metrics['evidence_compliance'], {'alice': None, 'bob': None})
+
+    def test_correctness_is_separate_from_mutual_accept(self):
+        backend = FixtureBackend()
+        result = backend.episode(None, backend.initial_state(), None, 0)
+        result['agents']['alice']['expected_verdict'] = 'fail'
+        result['agents']['bob'].pop('data_search_artifact')
+        result['agents']['bob'].pop('expected_verdict')
+        metrics = episode_metrics(result)
+        self.assertTrue(metrics['mutual_accept'])
+        self.assertEqual(metrics['task_correct'], {'alice': False, 'bob': None})
+
+    def test_malformed_or_missing_verdict_is_unknown(self):
+        backend = FixtureBackend()
+        for change in ('missing', 'mismatch', 'controlled'):
+            result = backend.episode(None, backend.initial_state(), None, 0)
+            if change == 'missing':
+                result['agents']['bob'].pop('verdict')
+            elif change == 'mismatch':
+                result['agents']['bob']['verdict_submission']['verdict'] = 'reject'
+            else:
+                result['controlled_bob'] = {'verdict': 'accept'}
+            self.assertIsNone(episode_metrics(result)['mutual_accept'])
+
+    def test_legacy_data_is_not_silently_relabelled(self):
+        with self.assertRaisesRegex(ValueError, 'Legacy'):
+            summarize([{'schema_version': 1}])
+
+    def test_forced_episode_interrupts_checkpoint_streak(self):
+        class ForcedSecond(FixtureBackend):
+            def episode(self, pair, histories, output, index):
+                result = super().episode(pair, histories, output, index)
+                if output.name == 'prefix' and index == 1:
+                    result['agents']['bob']['verdict_forced'] = True
+                return result
+        with tempfile.TemporaryDirectory() as root:
+            result = self.run_fixture(root, ForcedSecond())
+        self.assertEqual(len(result['prefix']), 5)
+        self.assertIsNone(result['prefix'][1]['metrics']['mutual_accept'])
+
+    def test_voluntary_reject_is_false_not_unknown(self):
+        backend = FixtureBackend()
+        result = backend.episode(None, backend.initial_state(), None, 0)
+        result['agents']['bob']['verdict'] = 'reject'
+        result['agents']['bob']['verdict_submission']['verdict'] = 'reject'
+        self.assertIs(episode_metrics(result)['mutual_accept'], False)
+
+    def test_unknown_tail_excluded_not_imputed(self):
+        with tempfile.TemporaryDirectory() as root:
+            result = self.run_fixture(root)
+        result['branches']['reset_b']['episodes'][0]['mutual_accept'] = None
+        summary = summarize([result])
+        self.assertEqual(summary['comparisons']['reset_b']['paired_n'], 0)
+        self.assertIsNone(summary['comparisons']['reset_b']['mean_difference'])
+        self.assertEqual(summary['comparisons']['reset_a']['paired_n'], 1)
 
     def test_short_schedule_fails_before_creating_output(self):
         with tempfile.TemporaryDirectory() as root:
@@ -91,7 +156,7 @@ class StudyTests(unittest.TestCase):
         second = deepcopy(first)
         second['trajectory_id'] = 'fixture-2'
         for e in second['branches']['reset_both']['episodes']:
-            e['unsupported_mutual_approval'] = False
+            e['mutual_accept'] = False
         summary = summarize([first, second], bootstrap=100)
         self.assertEqual(summary['comparisons']['reset_both']['paired_n'], 2)
         self.assertEqual(summary['comparisons']['reset_both']['mean_difference'], -.5)

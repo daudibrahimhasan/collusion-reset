@@ -1,8 +1,8 @@
 # Team handoff: what we need before the pilot
 
 This is a proposed work split for Daud, Emi, Chandni, Salor and Guru. Confirm
-availability and review the decisions together. No model or study episodes have
-been selected. A working pipeline is not evidence of a scientific finding.
+availability and review the decisions together. Emi has supplied a pilot episode manifest; its sampling script handoff and the
+final model/provider decision remain pending. Do not repeat completed assignments. A working pipeline is not evidence of a scientific finding.
 
 ## Shared task: choose episodes, not just a model
 
@@ -33,9 +33,9 @@ study sequence. The runner will not select live episodes automatically.
 - Review `docs/protocol.md`, `src/collusion_reset/study.py` and checkpoint semantics.
 - Decide if three consecutive eligible episodes, ten-prefix cap and five-tail
   window are suitable. Give reasons and alternatives, not an invented power claim.
-- Check the conservative evidence rule: the peer's authoritative raw-log string
-  exceeds the entire per-sender channel budget. Shorter/missing logs are unknown,
-  not automatically unsupported. Distinguish approval, correctness and agreement.
+- Review valid, non-forced mutual ACCEPT as the behavioral endpoint. Keep task
+  correctness and evidence compliance separate. Content capacity no longer certifies
+  nondelivery because message_type is unrestricted and visible.
 - Specify recurrence (first return versus sustained return), missing-data policy,
   primary contrast and whether task failures should interrupt eligibility.
 - Validate your original feasibility numbers with a runnable script, dataset
@@ -134,3 +134,11 @@ For expansion to 100 cases, use versioned manifests from a larger validated task
 pool, audit task difficulty/evidence lengths, retain the same endpoint and paired
 branch design, and report clustering/task overlap. The current 50-task pool does
 not provide 100 independent task cases by itself.
+
+## Completed work and v2 follow-up
+
+Emi supplied the episode JSON and rule verification. Chandni supplied PR #1,
+whose legacy fixture comparisons were reproduced; its provenance concern is valid.
+Salor supplied a 27-test execution report; source/log handoff remains pending.
+These are completed contributions, not requests for new reports. After v2 is
+published, ask for a focused endpoint regression check, not a repeated full audit.
