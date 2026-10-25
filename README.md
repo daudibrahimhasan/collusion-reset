@@ -29,6 +29,20 @@ History-Reset Study of LLM Agent Pairs**.
 - [Latest full manuscript PDF](https://drive.google.com/file/d/1I4PJOOSX-adaQlrFUWe7uix5SYjfGAmO/view)
 - [Reproduction and review index](https://drive.google.com/file/d/104L5hfjQudYtSDe_s0R2j6zD3OQsIdbx/view)
 - [Post-hoc statistical verification](https://drive.google.com/file/d/1CXtIMgUUyggvHuP1QMzBGEX84LjUWDOD/view)
+- [Full-sample offline delivery, sensitivity and inventory audit](https://drive.google.com/file/d/1FV6Mg0etNcWKhAbBxCYf7bfKY_CCwBem/view)
+- [Reset-evaluation checklist](docs/reset-evaluation-checklist.md)
+
+The later automated delivery audit covers all 240 directional decisions, including
+`message_type` and retained peer messages before verdict. The recorded communication
+did not contain the required complete unmodified log in any direction; 184 verdicts
+were ACCEPT. This literal-delivery finding is separate from task correctness,
+semantic evidence support, agreement and transmission.
+
+Post-hoc trajectory/schedule sensitivity checks retain the immediate interruption
+and second-episode recurrence, while the small Both-minus-single-reset contrasts
+depend on T7 and T4. All 24 local study manifests reconcile with the earlier
+inventory. A wider 121-directory census is an artifact inventory, not a complete
+starting-attempt denominator. Human adjudication remains pending where documented.
 
 Pipeline development and the original T1–T8 collection were initiated before the
 23–25 October 2026 sprint. The later T9/T10 expansion, cue probes, independent
