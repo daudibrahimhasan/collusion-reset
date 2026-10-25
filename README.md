@@ -26,8 +26,9 @@ The manuscript is **Does Resetting One Agent Break Mutual Approval? A Matched
 History-Reset Study of LLM Agent Pairs**.
 
 - [Manuscript](https://docs.google.com/document/d/13M4jSqeIdnTwpCacIslNAg0oZRWv_03i-H7s4bMRaaY/edit)
-- [Full manuscript PDF, 25 October 2026](https://drive.google.com/file/d/1I4PJOOSX-adaQlrFUWe7uix5SYjfGAmO/view)
+- [Latest full manuscript PDF](https://drive.google.com/file/d/1I4PJOOSX-adaQlrFUWe7uix5SYjfGAmO/view)
 - [Reproduction and review index](https://drive.google.com/file/d/104L5hfjQudYtSDe_s0R2j6zD3OQsIdbx/view)
+- [Post-hoc statistical verification](https://drive.google.com/file/d/1CXtIMgUUyggvHuP1QMzBGEX84LjUWDOD/view)
 
 Pipeline development and the original T1–T8 collection were initiated before the
 23–25 October 2026 sprint. The later T9/T10 expansion, cue probes, independent
