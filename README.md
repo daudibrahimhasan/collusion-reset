@@ -5,8 +5,10 @@
 The current status is [paper phase](docs/paper-phase.md). This supersedes all
 historical launch/status notes below. **Do not start new model calls.**
 
-T1–T10 completed 120 paired episodes. The independently audited eight-run subset
-must remain distinguished from T9/T10, whose final independent review is pending.
+T1–T10 completed 120 paired episodes. Independent numerical review covers all ten
+trajectories and all 240 task answers. The original eight-run subset remains
+distinguished from the post-results T9/T10 expansion. Human agreement coding
+covers T1–T8 only, with 93/96 matching labels and three unresolved cases.
 P1, P2–P5 and P6–P10 are separate exploratory cue-probe designs, not additional
 reset trajectories. All probe verdicts were REJECT in both conditions.
 
@@ -17,6 +19,24 @@ transmission is established. Preserve failed attempts and experimental chronolog
 Raw data, API credentials, account budgets and generated archives are not published
 in this repository. Historical runbooks and operational limits are not current
 launch authorization.
+
+## Manuscript and preexisting work
+
+The manuscript is **Does Resetting One Agent Break Mutual Approval? A Matched
+History-Reset Study of LLM Agent Pairs**.
+
+- [Manuscript](https://docs.google.com/document/d/13M4jSqeIdnTwpCacIslNAg0oZRWv_03i-H7s4bMRaaY/edit)
+- [Full manuscript PDF, 25 October 2026](https://drive.google.com/file/d/1I4PJOOSX-adaQlrFUWe7uix5SYjfGAmO/view)
+- [Reproduction and review index](https://drive.google.com/file/d/104L5hfjQudYtSDe_s0R2j6zD3OQsIdbx/view)
+
+Pipeline development and the original T1–T8 collection were initiated before the
+23–25 October 2026 sprint. The later T9/T10 expansion, cue probes, independent
+reviews and manuscript preparation extend that preexisting project. The full
+implementation and all collection are not claimed as work completed during the
+sprint weekend. Upstream code and task data are credited separately in the paper.
+
+Use the reproduction index for source supplements and historical evidence; the
+current repository alone does not authenticate every past execution state.
 
 ## Current execution: Modal native 32K, 22 October 2026
 
